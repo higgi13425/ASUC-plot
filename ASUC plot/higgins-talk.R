@@ -182,7 +182,7 @@ ASUC_plot <- colectomy_rates %>%
       annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
       annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
       annotate("text", x = 2020.8, y =3, label = "Tofa Era") +
-      annotate("rect", xmin = 2022.5, xmax = 2024.5, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
+      annotate("rect", xmin = 2022.5, xmax = 2024.3, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
       annotate("text", x = 2023.1, y =3, label = "Upa Era") +
       annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .1,fill = "red") +
       annotate("text", x = 2021, y =7, label = "COVID Times") +
@@ -194,7 +194,7 @@ ASUC_plot <- colectomy_rates %>%
       xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
   scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,42)) +
       annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC") +
-      theme_bw(base_size = 18) +
+      theme_bw(base_size = 16) +
   theme(legend.position = "none")
 
 ASUC_plot
