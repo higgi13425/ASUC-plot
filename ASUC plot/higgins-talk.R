@@ -12,7 +12,7 @@ library(flowchart)
 
   source("analysis-functions.R")
 
-  data = read.csv("ASUC-cohort-2024-08-21.csv")
+  data = read.csv("ASUC-cohort-2024-12-10.csv")
 
 
 # preprocessing ----------------------------------------------------------------
@@ -70,7 +70,7 @@ library(flowchart)
 
     ivcs_success %>%
       ggplot(aes(x = ADMIT_YEAR, y = success_rate)) +
-      geom_line(color = "blue", size=1) +
+      geom_line(color = "blue", linewidth=1) +
       geom_label(aes(label = round(100*success_rate,2), size = 44)) +
       scale_x_continuous(n.breaks=10) +
       xlab("Admission Year") + ylab("Success Rate") +
@@ -186,13 +186,13 @@ ASUC_plot <- colectomy_rates %>%
       annotate("text", x = 2023.1, y =3, label = "Upa Era") +
       annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .1,fill = "red") +
       annotate("text", x = 2021, y =7, label = "COVID Times") +
-      geom_line(color = "red", size=1) +
-      geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.2) +
+      geom_line(color = "red", linewidth=1) +
+      geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.3) +
       geom_label(aes(label = round(colect_rate_pct,1), size = 44)) +
       geom_text(aes(x = ADMIT_YEAR, y = -.3, label = paste0(n_colectomy, "/", count)), size = 4, vjust = 1.5) +
-      scale_x_continuous(n.breaks=10,limits = c(2013.5,2024.5)) +
+      scale_x_continuous(n.breaks=10,limits = c(2013.7,2024.3)) +
       xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
-  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,40)) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,42)) +
       annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC") +
       theme_bw(base_size = 18) +
   theme(legend.position = "none")
@@ -234,7 +234,7 @@ colect_adv <- data2 |>
   annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .4,fill = "red") +
   annotate("text", x = 2021, y =7, label = "COVID Times") +
   #annotate("text", x = 2019.65, y =36, label = "Percent Advanced\nRx Experienced") +
-  geom_line(aes( y = colect_rate_pct), color = "red", size=1) +
+  geom_line(aes( y = colect_rate_pct), color = "red", linewidth=1) +
   geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.2) +
   geom_label(aes( y = colect_rate_pct, label = round(colect_rate_pct,1), size = 44)) +
   geom_text(aes(x = ADMIT_YEAR, y = -.3, label = paste0(n_colectomy, "/", count)), size = 4, vjust = 1.5) +

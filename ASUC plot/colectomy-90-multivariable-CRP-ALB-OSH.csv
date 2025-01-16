@@ -1,4 +1,4 @@
 "variable","OR_summary","p"
-"ADMIT_CRP","1.07 (1.04, 1.09)","< 0.001"
-"ADMIT_ALB","0.72 (0.54, 0.96)","0.027"
-"YN_OUTSIDE_HOSPITAL_TRANSFER","1.84 (0.96, 3.52)","0.067"
+"ADMIT_CRP","1.07 (1.05, 1.09)","< 0.001"
+"ADMIT_ALB","0.65 (0.48, 0.87)","0.004"
+"YN_OUTSIDE_HOSPITAL_TRANSFER","1.94 (1, 3.78)","0.051"
