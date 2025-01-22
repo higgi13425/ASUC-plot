@@ -10,9 +10,9 @@
 library(tidyverse)
 library(flowchart)
 
-  source("analysis-functions.R")
+source("analysis-functions.R")
 
-  data = read.csv("ASUC-cohort-2024-12-10.csv")
+data = read.csv("ASUC-cohort-2024-12-10.csv")
 
 
 # preprocessing ----------------------------------------------------------------
@@ -77,10 +77,10 @@ library(flowchart)
       ggtitle("Michigan ASUC Cohort Success Rates with IVCS by Year") +
       labs(subtitle = "Success = No Colectomy in 90 Days") +
       theme_bw(base_size = 16)  +
-      geom_text(aes(x = ADMIT_YEAR, y = 0.70, label = paste0(n_success, "/", count)))  +
+      geom_text(aes(x = ADMIT_YEAR, y = 0.65, label = paste0(n_success, "/", count)))  +
       annotate("text", x = 2022.6, y =0.74, label = "Falling Use \nof IVCS Monotherapy", size =5) +
       annotate("rect", xmin = 2020.7, xmax = 2024.5, ymin = 0.71, ymax = 0.77, alpha = .1,fill = "red") +
-      scale_y_continuous(labels = scales::percent_format(scale = 100), limits = c(0.7,1)) +
+      scale_y_continuous(labels = scales::percent_format(scale = 100),  limits = c(0.65,1)) +
       theme(legend.position = "none")
 
 
@@ -178,12 +178,6 @@ colectomy_rates <- colectomy_rates |> rowwise() |>
 
 ASUC_plot <- colectomy_rates %>%
       ggplot(aes(x = ADMIT_YEAR, y = colect_rate_pct)) +
-      annotate("rect", xmin = 2014.5, xmax = 2018.5, ymin = 1, ymax = 5, alpha = .1,fill = "green") +
-      annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
-      annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
-      annotate("text", x = 2020.8, y =3, label = "Tofa Era") +
-      annotate("rect", xmin = 2022.5, xmax = 2024.3, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
-      annotate("text", x = 2023.1, y =3, label = "Upa Era") +
       annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .1,fill = "red") +
       annotate("text", x = 2021, y =7, label = "COVID Times") +
       geom_line(color = "red", linewidth=1) +
@@ -199,16 +193,16 @@ ASUC_plot <- colectomy_rates %>%
 
 ASUC_plot
 
-ggsave(ASUC_plot, filename = "ASUC_plot.png", width = 10, height = 4.5, units = "in", dpi = 300)
+ggsave(ASUC_plot, filename = "ASUC_plot1.png", width = 10, height = 4.5, units = "in", dpi = 300)
 
 
 ## dataset with colectomy rates and prior therapy rates by ADMIT_YEAR
 ##
 data2 <- data |>
-  mutate(ADMIT_YEAR = lubridate::year(ADMIT_DATETIME)) |>  replace_na(list(PRIOR_ADALIMUMAB=0, PRIOR_INFLIXIMAB=0, PRIOR_GOLIMUMAB=0, PRIOR_VEDOLIZUMAB=0, PRIOR_USTEKINUMAB=0, PRIOR_TOFACITINIB=0, PRIOR_UPADACITINIB=0)) |>
+  mutate(ADMIT_YEAR = lubridate::year(ADMIT_DATETIME)) |>  replace_na(list(HNP_PRIOR_ADALIMUMAB=0, HNP_PRIOR_INFLIXIMAB=0, HNP_PRIOR_GOLIMUMAB=0, HNP_PRIOR_VEDOLIZUMAB=0, HNP_PRIOR_USTEKINUMAB=0, HNP_PRIOR_TOFACITINIB=0, HNP_PRIOR_UPADACITINIB=0)) |>
   rowwise() |>
-  mutate(prior_biol = sum(PRIOR_ADALIMUMAB, PRIOR_GOLIMUMAB, PRIOR_INFLIXIMAB, PRIOR_USTEKINUMAB, PRIOR_VEDOLIZUMAB)) |>
-  mutate(prior_jak = sum(PRIOR_TOFACITINIB, PRIOR_UPADACITINIB)) |>
+  mutate(prior_biol = sum(HNP_PRIOR_ADALIMUMAB, HNP_PRIOR_GOLIMUMAB, HNP_PRIOR_INFLIXIMAB, HNP_PRIOR_USTEKINUMAB, HNP_PRIOR_VEDOLIZUMAB)) |> 
+  mutate(prior_jak = sum(HNP_PRIOR_TOFACITINIB, HNP_PRIOR_UPADACITINIB)) |> 
   mutate(prior_biol = ifelse(prior_biol > 0, 1, 0)) |>
   mutate(prior_jak = ifelse(prior_jak > 0, 1, 0)) |>
   mutate(group = case_when(
@@ -218,13 +212,42 @@ data2 <- data |>
     TRUE ~ "none")) |>
   ungroup() |>
   select(ADMIT_YEAR, prior_biol, prior_jak, group) |> group_by(ADMIT_YEAR) |>
-  summarise(pct_adv_rx = round(100*sum(group != "none")/n(),2)) |>
-  right_join(colectomy_rates)
+  summarise(pct_adv_rx = round(100*sum(group != "none")/n(),2)) |> 
+  right_join(colectomy_rates) 
 
 
-colect_adv <- data2 |>
+colect_adv1 <- data2 |>
   ggplot(aes(x = ADMIT_YEAR, y = colect_rate_pct)) +
-  #geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "blue", alpha = 0.2) +
+  geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "cadetblue", alpha = 0.2) +
+  # annotate("rect", xmin = 2014.5, xmax = 2018.5, ymin = 1, ymax = 5, alpha = .1,fill = "green") +
+  # annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
+  # annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
+  # annotate("text", x = 2020.8, y =3, label = "Tofa Era") +
+  # annotate("rect", xmin = 2022.5, xmax = 2024, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
+  # annotate("text", x = 2023.1, y =3, label = "Upa Era") +
+  annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .4,fill = "red") +
+  annotate("text", x = 2021, y =7, label = "COVID Times") +
+  geom_line(aes( y = colect_rate_pct), color = "red", linewidth=1) +
+  geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.2) +
+  geom_label(aes( y = colect_rate_pct, label = round(colect_rate_pct,1), size = 44)) +
+  geom_text(aes(x = ADMIT_YEAR, y = -.3, label = paste0(n_colectomy, "/", count)), size = 4, vjust = 1.5) +
+  scale_x_continuous(n.breaks=10,limits = c(2013.9,2024.1)) +
+  xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,65)) +
+  annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC") +
+  annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 6) +
+  theme_bw(base_size = 18) +
+  theme(legend.position = "none")
+
+colect_adv1
+
+ggsave(colect_adv1, filename = "ASUC_plot2.png", width = 10, height = 4.5, units = "in", dpi = 300)
+
+
+
+colect_adv2 <- data2 |>
+  ggplot(aes(x = ADMIT_YEAR, y = colect_rate_pct)) +
+  # geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "cadetblue", alpha = 0.2) +
   annotate("rect", xmin = 2014.5, xmax = 2018.5, ymin = 1, ymax = 5, alpha = .1,fill = "green") +
   annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
   annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
@@ -233,18 +256,19 @@ colect_adv <- data2 |>
   annotate("text", x = 2023.1, y =3, label = "Upa Era") +
   annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .4,fill = "red") +
   annotate("text", x = 2021, y =7, label = "COVID Times") +
-  #annotate("text", x = 2019.65, y =36, label = "Percent Advanced\nRx Experienced") +
   geom_line(aes( y = colect_rate_pct), color = "red", linewidth=1) +
   geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.2) +
   geom_label(aes( y = colect_rate_pct, label = round(colect_rate_pct,1), size = 44)) +
   geom_text(aes(x = ADMIT_YEAR, y = -.3, label = paste0(n_colectomy, "/", count)), size = 4, vjust = 1.5) +
   scale_x_continuous(n.breaks=10,limits = c(2013.9,2024.1)) +
   xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
-  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,50)) +
-  annotate("text", x = 2014.3, y =3, label = "N Colect /\nN ASUC") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,42)) +
+  annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC") +
+  #annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 6) +
   theme_bw(base_size = 18) +
   theme(legend.position = "none")
 
-colect_adv
+colect_adv2
 
-ggsave(colect_adv, filename = "ASUC_plot.png", width = 10, height = 4.5, units = "in", dpi = 300)
+ggsave(colect_adv2, filename = "ASUC_plot3.png", width = 10, height = 4.5, units = "in", dpi = 300)
+
