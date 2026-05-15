@@ -165,3 +165,5 @@ colect_adv2 <- data2 |>
 colect_adv2
 
 ggsave(colect_adv2, filename = "ASUC_plot3.png", width = 10, height = 4.5, units = "in", dpi = 300)
+
+
