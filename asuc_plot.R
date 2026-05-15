@@ -139,13 +139,14 @@ ggsave(colect_adv1, filename = "ASUC_plot2.png", width = 10, height = 4.5, units
 # plot adding treatment eras
 colect_adv2 <- data2 |>
   ggplot(aes(x = ADMIT_YEAR, y = colect_rate_pct)) +
-  # geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "cadetblue", alpha = 0.2) +
+  geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "cadetblue", alpha = 0.2) +
   annotate("rect", xmin = 2014.5, xmax = 2018.5, ymin = 1, ymax = 5, alpha = .1,fill = "green") +
   annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
   annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
-  annotate("text", x = 2020.8, y =3, label = "Tofa Era") +
+  annotate("text", x = 2020.5, y =3, label = "Tofa Era") +
   annotate("rect", xmin = 2022.5, xmax = 2025.1, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
-  annotate("text", x = 2023.3, y =3, label = "Upa Era") +
+  annotate("text", x = 2023.4, y =3, label = "Upa") +
+  annotate("text", x = 2024.6, y =3, label = "Era") +
   annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .4,fill = "red") +
   annotate("text", x = 2021, y =7, label = "COVID Times") +
   geom_line(aes( y = colect_rate_pct), color = "red", linewidth=1) +
@@ -154,9 +155,10 @@ colect_adv2 <- data2 |>
   geom_text(aes(x = ADMIT_YEAR, y = -.3, label = paste0(n_colectomy, "/", count)), size = 4, vjust = 1.5) +
   scale_x_continuous(n.breaks=10,limits = c(2013.9,2025.1)) +
   xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
-  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,42)) +
+  labs(caption = "IFX = Infliximab, Tofa = Tofacitinib, Upa = Upadacitinib\nHigher Percent Prior Advanced Therapy = Harder to Treat") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,65)) +
   annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC", size = 4.5) +
-  #annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 6) +
+  annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 6) +
   theme_bw(base_size = 18) +
   theme(legend.position = "none")
 
