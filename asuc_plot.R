@@ -141,14 +141,14 @@ colect_adv2 <- data2 |>
   ggplot(aes(x = ADMIT_YEAR, y = colect_rate_pct)) +
   geom_area(aes(x = ADMIT_YEAR, y = pct_adv_rx), fill = "cadetblue", alpha = 0.2) +
   annotate("rect", xmin = 2014.5, xmax = 2018.5, ymin = 1, ymax = 5, alpha = .1,fill = "green") +
-  annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era") +
+  annotate("text", x = 2016.5, y =3, label = "Accelerated IFX Era", size = 4) +
   annotate("rect", xmin = 2018.5, xmax = 2022.5, ymin = 1, ymax = 5, alpha = .1,fill = "blue") +
-  annotate("text", x = 2020.5, y =3, label = "Tofa Era") +
+  annotate("text", x = 2020.5, y =3, label = "Tofa Era", size = 4) +
   annotate("rect", xmin = 2022.5, xmax = 2025.1, ymin = 1, ymax = 5, alpha = .3,fill = "orange") +
-  annotate("text", x = 2023.4, y =3, label = "Upa") +
-  annotate("text", x = 2024.6, y =3, label = "Era") +
+  annotate("text", x = 2023.4, y =3, label = "Upa", size = 4) +
+  annotate("text", x = 2024.6, y =3, label = "Era", size = 4) +
   annotate("rect", xmin = 2019.75, xmax = 2022.25, ymin = 5, ymax = 9, alpha = .4,fill = "red") +
-  annotate("text", x = 2021, y =7, label = "COVID Times") +
+  annotate("text", x = 2021, y =7, label = "COVID Times", size = 4) +
   geom_line(aes( y = colect_rate_pct), color = "red", linewidth=1) +
   geom_errorbar(aes(ymin=lcb, ymax=ucb), width=.2) +
   geom_label(aes( y = colect_rate_pct, label = round(colect_rate_pct,1), size = 44)) +
@@ -157,13 +157,15 @@ colect_adv2 <- data2 |>
   xlab("Admission Year") + ylab("90-Day Colectomy Percentage") +
   labs(caption = "IFX = Infliximab, Tofa = Tofacitinib, Upa = Upadacitinib\nHigher Percent Prior Advanced Therapy = Harder to Treat") +
   scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(-3,65)) +
-  annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC", size = 4.5) +
-  annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 6) +
-  theme_bw(base_size = 18) +
-  theme(legend.position = "none")
+  annotate("text", x = 2014, y =3, label = "N Colect /\nN ASUC", size = 3) +
+  annotate("text", x = 2019.3, y =45, label = "Percent Prior\nAdvanced Therapy", size = 5) +
+  theme_bw(base_size = 16) +
+  theme(legend.position = "none")+
+  labs(title = "Figure 1. Quality Improvement in ASUC Therapy at \nthe University of Michigan, 2014-2025")
 
 colect_adv2
 
-ggsave(colect_adv2, filename = "ASUC_plot3.png", width = 10, height = 4.5, units = "in", dpi = 300)
+ggsave(colect_adv2, filename = "ASUC_plot3.png", width = 8, height = 5, units = "in", dpi = 300)
+
 
 
