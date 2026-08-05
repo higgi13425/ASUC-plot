@@ -94,7 +94,7 @@ ggplot(plot_data, aes(y = outcome, color = arm)) +
     expand = c(0, 0)
   ) +
   scale_color_manual(values = c("green3", "#2297E6", "#DF536B"),
-                     name = "Treatment Arm",
+                     name = "Treatment Arm (N)",
                      limits = c("upa+ivcs", "upa", "ivcs"),
                      labels = c(
                        "upa+ivcs" = "Upadacitinib + IV Steroids (15)",
@@ -108,12 +108,16 @@ ggplot(plot_data, aes(y = outcome, color = arm)) +
     y = "Outcome",
     caption = "Presented at DDW 2026, Abstract Su1605"
   ) +
-  annotate('text', x = 40, y =3, label = "p > 0.9") +
-  annotate('text', x = 80, y =2, label = "p = 0.017") +
-  annotate('text', x = 80, y =1, label = "p = 0.029") +
+  annotate('text', x = 40, y =3, label = "p > 0.9", size = 5) +
+  annotate('text', x = 80, y =2, label = "p = 0.017", size = 5) +
+  annotate('text', x = 80, y =1, label = "p = 0.029", size = 5) +
   theme_minimal() +
   theme(
     panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 12),
+    axis.text.x = element_text(size = 12),
+    axis.title.y = element_text(size = 14),
+    axis.title.x = element_text(size = 14),
     
     # Position legend inside top right
     legend.position = c(0.95, 0.96),
