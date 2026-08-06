@@ -93,7 +93,7 @@ ggplot(plot_data, aes(y = outcome, color = arm)) +
     limits = c(0, 110),
     expand = c(0, 0)
   ) +
-  scale_color_manual(values = c("green3", "#2297E6", "#DF536B"),
+  scale_color_manual(values = c("green4", "#2297E6", "#DF536B"),
                      name = "Treatment Arm (N)",
                      limits = c("upa+ivcs", "upa", "ivcs"),
                      labels = c(
@@ -106,7 +106,7 @@ ggplot(plot_data, aes(y = outcome, color = arm)) +
     subtitle = "Randomized Open-label Pilot Trial in 42 ASUC Patients at the University of Michigan",
     x = "Percentage of Patients (%)",
     y = "Outcome",
-    caption = "Presented at DDW 2026, Abstract Su1605"
+    caption = "Presented at DDW 2026, Abstract Su1605\nASUC Inpatients treated with 30 mg bid or 45 mg po qd Upa + 1 mg/kg/d IV methylprednisolone"
   ) +
   annotate('text', x = 40, y =3, label = "p > 0.9", size = 5) +
   annotate('text', x = 80, y =2, label = "p = 0.017", size = 5) +
@@ -129,4 +129,5 @@ ggplot(plot_data, aes(y = outcome, color = arm)) +
   )
 
 ggsave('smart_trial.png', width = 8, height = 6)
+
 
